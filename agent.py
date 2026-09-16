@@ -1,4 +1,4 @@
-# Senest opdateret: 16. september 2026 kl. 08:20 zzz
+# Senest opdateret: 16. september 2026 kl. 13:25
 
 
 """
@@ -59,7 +59,7 @@ Installer Ollama.
 
 Hent modellen:
 
-    ollama run qwen2.5:3b
+    ollama pull qwen2.5:3b
 
 Installer Ollama Python-pakken:
 
@@ -75,7 +75,7 @@ Installer Ollama:
 
 Hent modellen:
 
-    ollama run qwen2.5:3b
+    ollama pull qwen2.5:3b
 
 Installer Python og pip hvis det er nødvendigt:
 
@@ -634,16 +634,17 @@ def ask_agent(user_message: str) -> str:
             tools=tools,
         )
 
-        assistant_message = response.message        
+        assistant_message = response.message
 
         messages.append(
             assistant_message
         )
 
         tool_calls = assistant_message.tool_calls
-        x = assistant_message.
-        
+
         if not tool_calls:
+            # Her er LLM'en færdig med at bruge tools
+            # og returnerer det endelige resultat til brugeren.
             return assistant_message.content
 
         for tool_call in tool_calls:
@@ -722,6 +723,7 @@ def main():
             user_message = input("Du: ").strip()
 
         except (KeyboardInterrupt, EOFError):
+            # Ctrl+C afslutter programmet.
             print()
             print("Programmet afsluttes.")
             break
